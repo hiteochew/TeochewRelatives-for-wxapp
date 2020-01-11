@@ -1,0 +1,32 @@
+<!--index.wxml-->
+<view class="container">
+	<view class="show">
+		<view class="label">{{reverse?"伊叫我：":"我叫伊："}}</view>
+		<scroll-view id="result" class="result" scroll-top="{{resultTop}}" scroll-y="{{true}}" scroll-with-animation="{{false}}">
+			<text class="previous-text" wx:for="{{previous}}" selectable="{{true}}">{{item}}</text>
+			<text space=" " selectable="{{true}}">{{txt}}</text>
+			<text wx:if="{{result}}" selectable="{{true}}">{{result}}</text>
+		</scroll-view>
+	</view>
+	<view class="action">
+		<view class="btn {{reverse?' reverse-hover':''}}" bindtap="handleReverse">≒</view>
+		<view class="btn {{sex==0?' color-pink':' color-blue'}}" type="primary" bindtap="handleSex">{{sex==0?"女":"男"}}</view>
+		<view class="btn" bindtap="clearLine">CE</view>
+		<view class="btn" bindtap="clear">C</view>
+
+		<view class="btn" data-txt="阿父" bindtap="insert">父</view>
+		<view class="btn" data-txt="阿母" bindtap="insert">母</view>
+		<view class="btn" data-txt="翁" bindtap="insert">翁</view>
+		<view class="btn" data-txt="妻" bindtap="insert">妻</view>
+
+		<view class="btn" data-txt="阿兄" bindtap="insert">兄</view>
+		<view class="btn" data-txt="阿姐" bindtap="insert">姐</view>
+		<view class="btn" data-txt="囝" bindtap="insert">囝</view>
+
+		<view class="btn" data-txt="阿弟" bindtap="insert">弟</view>
+		<view class="btn" data-txt="阿妹" bindtap="insert">妹</view>
+		<view class="btn" data-txt="走囝" bindtap="insert">走囝</view>
+
+		<view class="btn btn-primary compute" bindtap="getRelationship">＝</view>
+	</view>
+</view>

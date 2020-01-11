@@ -1,0 +1,15 @@
+{
+    "pages": [
+        "pages/index/index"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "backgroundColor": "#f8f8f8",
+        "navigationStyle": "default",
+        "navigationBarBackgroundColor": "#f8f8f8",
+        "navigationBarTitleText": "潮州親戚計算器",
+        "navigationBarTextStyle": "black"
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json"
+}
