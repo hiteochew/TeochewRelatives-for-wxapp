@@ -1,31 +1,45 @@
 <!--index.wxml-->
 <view class="container">
 	<view class="show">
-		<view class="label">{{reverse?"伊叫我：":"我叫伊："}}</view>
+		<view class="label">{{reverse?"伊叫我":"我叫伊"}}</view>
 		<scroll-view id="result" class="result" scroll-top="{{resultTop}}" scroll-y="{{true}}" scroll-with-animation="{{false}}">
-			<text class="previous-text" wx:for="{{previous}}" selectable="{{true}}">{{item}}</text>
+			<text class="previous-text" wx:for="{{previous}}" wx:key="index" selectable="{{true}}">
+			<block wx:if="{{reverse}}">{{item.origin}}叫我为{{item.result}}</block>
+			<block wx:else>我叫{{item.origin}}为{{item.result}}</block>
+			</text>
 			<text space=" " selectable="{{true}}">{{txt}}</text>
 			<text wx:if="{{result}}" selectable="{{true}}">{{result}}</text>
 		</scroll-view>
+		<scroll-view scroll-y="{{false}}" scroll-x="{{true}}" class="more-view" wx:if="{{more.length>0}}" selectable="{{true}}">
+			<text class="more-text" wx:for="{{more}}" wx:key="more">{{item}}</text>
+		</scroll-view>
+	</view>
+	<view class="middle">
+		<view>
+			语音：
+			<switch class="switch-mini" checked="{{switchVoice}}" bindchange="handleswitchVoice" />
+		</view>
 	</view>
 	<view class="action">
 		<view class="btn {{reverse?' reverse-hover':''}}" bindtap="handleReverse">≒</view>
 		<view class="btn {{sex==0?' color-pink':' color-blue'}}" type="primary" bindtap="handleSex">{{sex==0?"女":"男"}}</view>
-		<view class="btn" bindtap="clearLine">CE</view>
-		<view class="btn" bindtap="clear">C</view>
+		<view class="btn" bindtap="clear">CE</view>
+		<view class="btn" bindtap="clearLine">C</view>
 
-		<view class="btn" data-txt="阿父" bindtap="insert">父</view>
-		<view class="btn" data-txt="阿母" bindtap="insert">母</view>
-		<view class="btn" data-txt="翁" bindtap="insert">翁</view>
-		<view class="btn" data-txt="妻" bindtap="insert">妻</view>
+		<view class="btn" data-txt="阿父" data-voice="https://www.mogher.com/sound/syllabes/pe6.mp3" bindtap="insert">父</view>
+		<view class="btn" data-txt="阿母" data-voice="https://www.mogher.com/sound/syllabes/bo2.mp3" bindtap="insert">母</view>
+		<view class="btn" data-txt="翁" data-voice="https://www.mogher.com/sound/syllabes/ang1.mp3" bindtap="insert">
+			<view class="phonetic">ang1</view>翁
+		</view>
+		<view class="btn" data-txt="妻" data-voice="https://www.mogher.com/sound/syllabes/tshi1.mp3" bindtap="insert">妻</view>
 
-		<view class="btn" data-txt="阿兄" bindtap="insert">兄</view>
-		<view class="btn" data-txt="阿姐" bindtap="insert">姐</view>
-		<view class="btn" data-txt="囝" bindtap="insert">囝</view>
+		<view class="btn" data-txt="阿兄" data-voice="https://www.mogher.com/sound/syllabes/hia~1.mp3" bindtap="insert">兄</view>
+		<view class="btn" data-txt="阿姐" data-voice="https://www.mogher.com/sound/syllabes/tsia2.mp3" bindtap="insert">姐</view>
+		<view class="btn" data-txt="囝" data-voice="https://www.mogher.com/sound/syllabes/kia~2.mp3" bindtap="insert">囝</view>
 
-		<view class="btn" data-txt="阿弟" bindtap="insert">弟</view>
-		<view class="btn" data-txt="阿妹" bindtap="insert">妹</view>
-		<view class="btn" data-txt="走囝" bindtap="insert">走囝</view>
+		<view class="btn" data-txt="阿弟" data-voice="https://www.mogher.com/sound/syllabes/ti6.mp3" bindtap="insert">弟</view>
+		<view class="btn" data-txt="阿妹" data-voice="https://www.mogher.com/sound/syllabes/mue6.mp3" bindtap="insert">妹</view>
+		<view class="btn" data-txt="走囝" data-voice="" bindtap="insert">走囝</view>
 
 		<view class="btn btn-primary compute" bindtap="getRelationship">＝</view>
 	</view>

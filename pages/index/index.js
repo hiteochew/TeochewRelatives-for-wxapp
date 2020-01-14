@@ -2,45 +2,64 @@
 //获取应用实例
 import relationship from "../../utils/relationship"
 const app = getApp()
+const AudioCxt = wx.createInnerAudioContext()
 
 Page({
   data: {
     previous: [],
     txt: '',
     result: '',
+    more: [],
     resultTop: 0,
     reverse: false,
-    sex: 0
+    sex: 0,
+    //语音功能
+    switchVoice: false
   },
   onLoad: function () {
 
   },
 
-  getRelationship: function () {
+  getRelationship: function (e, options) {
     let self = this
-    if (this.data.txt) {
-      let tmparr = this.data.previous
-      let txt = this.data.txt
+    let tmparr = this.data.previous
+    let txt = this.data.txt,
+      sex = this.data.sex,
+      reverse = this.data.reverse
+    if (tmparr.length > 16) {
+      tmparr = tmparr.filter((resobj, resindex) => resindex > (tmparr.length - 16))
+    }
+    if (options) {
+      txt = options.txt
+      sex = options.sex
+      reverse = options.reverse
+    }
+    if (txt) {
       let options = {
         text: txt,
-        sex: this.data.sex,
-        type: 'default', //转换类型：'default'算称谓,'chain'算关系(此时reverse无效)
-        reverse: this.data.reverse //称呼方式：true对方称呼我,false我称呼对方
+        sex,
+        reverse,
+        type: 'default' //转换类型：'default'算称谓,'chain'算关系(此时reverse无效)
       };
       let result = relationship(options);
 
       if (result.length > 0) {
-        tmparr.push(txt + '是' + result[0])
-        console.log("结果", result, tmparr)
+        tmparr.push({
+          origin: txt,
+          result: result[0]
+        })
+        console.log("结果", result)
         this.setData({
           previous: tmparr,
           txt: '',
-          result: result[0]
+          result: result[0],
+          more: result
         })
       } else {
         this.setData({
           txt: '',
-          result: '太複雜了，我不知道～'
+          result: '太複雜了，我不知道～',
+          more: result
         })
       }
     }
@@ -99,6 +118,11 @@ Page({
         resultTop: res[1].scrollHeight
       })
     })
+
+    if (this.data.switchVoice && e.currentTarget.dataset.voice) {
+      AudioCxt.src = e.currentTarget.dataset.voice
+      AudioCxt.play()
+    }
   },
 
   /**
@@ -109,13 +133,15 @@ Page({
       txt: '',
       result: '',
       previous: [],
+      more: [],
       resultTop: 0
     })
   },
   clearLine: function () {
     this.setData({
       txt: '',
-      result: ''
+      result: '',
+      more: [],
     })
   },
 
@@ -123,9 +149,16 @@ Page({
    * 性別轉換
    */
   handleSex: function () {
-    this.clearLine()
+    let self = this
+    //this.clearLine()
     this.setData({
       sex: this.data.sex == 0 ? 1 : 0
+    }, (self.data.previous.length > 0) && function () {
+      self.getRelationship('', {
+        txt: self.data.previous[self.data.previous.length - 1].origin,
+        sex: self.data.sex,
+        reverse: self.data.reverse
+      })
     })
   },
 
@@ -133,9 +166,30 @@ Page({
    * 轉換稱呼
    */
   handleReverse: function () {
-    this.clearLine()
+    let self = this
+    //this.clearLine()
     this.setData({
       reverse: !this.data.reverse
+    }, (self.data.previous.length > 0) && function () {
+      self.getRelationship('', {
+        txt: self.data.previous[self.data.previous.length - 1].origin,
+        sex: self.data.sex,
+        reverse: self.data.reverse
+      })
     })
+  },
+
+  //切换语音
+  handleswitchVoice: function () {
+    this.setData({
+      switchVoice: !this.data.switchVoice
+    })
+  },
+
+  onShareAppMessage: function () {
+    return {
+      title: '潮语亲戚计算器',
+      imageUrl: '../../static/images/cover.jpg'
+    }
   }
 })

@@ -60,6 +60,59 @@
   margin-bottom: 0.5rem;
 }
 
+.show .more-view {
+  position: relative;
+  line-height: 1;
+  align-self: flex-start;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.2rem;
+  /* overflow-x: auto;
+  width: 100%;
+  max-width: 100%; */
+  box-sizing: border-box;
+}
+
+.show .more-text {
+  position: relative;
+  font-weight: normal;
+  font-size: 0.8rem;
+  color: rgb(150, 150, 150);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2rem;
+  background: #e1e1e1;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+.show .more-text:nth-child(n+2) {
+  margin-left: 0.5rem;
+}
+
+.show .more-text:nth-last-child(1) {
+  margin-right: 0.5rem;
+}
+
+.middle {
+  margin-top: 0.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.middle>view {
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #aaa;
+  word-spacing: 2rpx;
+  letter-spacing: 2rpx;
+  line-height: 1.75;
+  padding: 0.2rem 0.5rem;
+}
+
+.middle .switch-mini {
+  transform: scale(0.6);
+  transform-origin: left;
+}
+
 .action {
   flex: 1;
   display: grid;
@@ -115,6 +168,16 @@
 .action>.btn.reverse-hover {
   font-weight: bolder;
   color: #0168B7;
+}
+
+.action>.btn .phonetic {
+  font-size: 0.5rem;
+  font-weight: lighter;
+  color: #aaa;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 16%;
 }
 
 @media (min-width:360px) {
